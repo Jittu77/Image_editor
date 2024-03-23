@@ -33,7 +33,7 @@ def processImage(filename, operation):
     # print(filename, operation)
     if operation=="uploadImage":
         return filename
-    
+    # convert to grayscale
     elif operation=="cgray":
         print(filename, operation)
         print("done 1")
@@ -45,25 +45,29 @@ def processImage(filename, operation):
         cv2.imwrite(newFile, imgProcessed)
         print("done4")
         return name
+
+    # convert to png, jpeg, jpg file
+    
     elif operation in ["cpng", "cjpeg", "cjpg"]:
         name = f"{filename.split('.')[0]}.{operation[1:]}"
         newFile = f"{basedir}/static/{filename.split('.')[0]}.{operation[1:]}"
         cv2.imwrite(newFile, img)
         return name
+
+    # rotate an image
+    
     elif operation == 'degree':
         name = filename
         angle = float(request.form.get('degree'))
-        print(filename, operation)
         height, width = img.shape[:2]
-        print(filename, operation)
         rotation_matrix = cv2.getRotationMatrix2D((width / 2, height / 2), angle, 1)
-        print(filename, operation)
 
         # Apply the rotation to the image
         rotated_image = cv2.warpAffine(img, rotation_matrix, (width, height))
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile, rotated_image)
         return name
+    # crop an image
     
     elif operation == 'cutting_edge_values':
         name = filename
@@ -72,6 +76,7 @@ def processImage(filename, operation):
         y1 = int(request.form.get('y1'))
         y2 = int(request.form.get('y2'))
         height, width = img.shape[:2]
+        # checking the possibilty to crop
         crop_possible = True
         if not 0 <= x1 < width:
             crop_possible = False
@@ -95,6 +100,8 @@ def processImage(filename, operation):
             cv2.imwrite(newFile, imgProcessed)
             print(filename, operation)
             return name
+            
+    # resize the crop
     elif operation == 'resize':
         new_height=int(request.form.get('newWidth'))
         new_width=int(request.form.get('newWidth'))
@@ -104,14 +111,16 @@ def processImage(filename, operation):
         cv2.imwrite(newFile, resized_img)
 
         return filename
-    
+        
+    # blur an  image
     elif operation == 'blur':
         kernal=int(request.form.get('blurValue'))
         blurred_image = cv2.blur(img, (kernal, kernal))
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile, blurred_image)
         return filename
-    
+        
+    # manage brightness
     elif operation=="brightness":
         value=int(request.form.get('brightness'))
         zero=np.zeros(img.shape,img.dtype)
@@ -119,7 +128,8 @@ def processImage(filename, operation):
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile,bright_img)
         return filename
-
+        
+    # manage contrast
     elif operation=="contrast":
         value=float(request.form.get('contrast'))
         zero=np.zeros(img.shape,img.dtype)
@@ -134,7 +144,8 @@ def processImage(filename, operation):
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile,alchemy)
         return filename
-    
+        
+    # applying mercury effect
     elif operation=="mercury":
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         clahe = cv2.createCLAHE() 
@@ -143,7 +154,8 @@ def processImage(filename, operation):
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile,mercury)
         return filename
-    
+        
+    # applying wacko effect
     elif operation=="wacko":
         hsv=cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         _,s,v=cv2.split(hsv)
@@ -151,21 +163,24 @@ def processImage(filename, operation):
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile,wacko)
         return filename
-    
+
+    # applying unstable effect
     elif operation=="unstable":
         kernel=np.array([[0.272, 0.534, 0.131],[0.349, 0.686, 0.168],[0.393, 0.769, 0.189]])
         unstable=cv2.filter2D(img, -1, kernel)       
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile,unstable)
         return filename
-    
+
+    # applying ore effect
     elif operation=="ore":
         kernel=np.array([[0,-1,-1],[1,0,-1],[1,1,0]])
         ore=cv2.filter2D(img, -1, kernel)      
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile,ore)
         return filename
-    
+
+    # applying contour effect
     elif operation=="contour":    
         denoised_color=cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 21)
         gray=cv2.cvtColor(denoised_color,cv2.COLOR_BGR2GRAY)
@@ -178,7 +193,8 @@ def processImage(filename, operation):
         newFile = f"{basedir}/static/{filename}"
         cv2.imwrite(newFile,contour)
         return filename
-    
+
+    # applying snicko effect
     elif operation=="snicko":
         clone=img.copy()
         denoised=cv2.fastNlMeansDenoisingColored(clone, None, 5, 5, 7, 21)
@@ -197,10 +213,12 @@ def processImage(filename, operation):
 def index():
     return render_template("index.html")
 
+# effects web page
 @app.route("/effects")
 def effects():
     return render_template("effects.html")
 
+# changing the effect of an image
 @app.route("/effect", methods=["GET", "POST"])
 def effect():
     global processedImg
@@ -231,6 +249,7 @@ def effect():
                 processedImg = processImage(filename, request.form.get("operation"))
                 return render_template("effects.html", image_name=processedImg, abc=abc)
 
+# visit out latest work page (portfolio place)
 @app.route("/history")      
 def history():
     # Get list of image filenames from the static folder
@@ -244,12 +263,14 @@ def history():
     
     return render_template('history.html', image_files=image_files, num_rows=num_rows)
 
+# render to about section page
 @app.route("/about")
 def about():
     return render_template('about.html')
 
 processedImg=""
 # image editing
+# edit main section for edit page
 @app.route("/edit", methods=["GET", "POST"])
 def edit():
     global processedImg
