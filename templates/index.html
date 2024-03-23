@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Image Editor- Edit Your Images Online</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+  <style>
+    table {
+      padding-top: 21px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    td img {
+      max-width: 500px;
+      max-height: 500px;
+    }
+
+    nav {
+      /* background-color: rgba(160, 186, 193, 0.077); */
+      /* color: #2f2828; */
+      padding: 10px 0;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .nav-logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li {
+      margin-right: 20px;
+    }
+
+    .nav-links a {
+      /* color: #fff; */
+      text-decoration: none;
+    }
+
+    /* Define colors for the toggle button */
+    .nav-toggle {
+      background-color: #ff0044;
+      /* Blue color */
+      color: #fff;
+      /* White text color */
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    /* On hover, darken the background color */
+    .nav-toggle:hover {
+      background-color: #0056b3;
+      /* Darker blue */
+    }
+
+    /* When active, change the background color */
+    .show-nav .nav-toggle {
+      background-color: #dc3545;
+      /* Red color */
+    }
+
+    /* Additional styles for animation or positioning */
+
+
+    .contact-btn {
+      background-color: #0077cc;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-btn:hover {
+      background-color: #005fa3;
+    }
+
+    .nav-toggle {
+      display: none;
+      cursor: pointer;
+    }
+
+    .form-label {
+      color: antiquewhite;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      /* background-color: #fff; */
+      margin-bottom: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #000;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .nav-links li {
+        margin-bottom: 10px;
+      }
+
+      .nav-toggle {
+        display: block;
+        color: #0077cc;
+      }
+
+      .show-nav .nav-links {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body class="py-5"
+  style="background-image: url('https://cdn.filtergrade.com/wp-content/uploads/2019/12/28151148/40-Black-Wood-Background-Textures-3.jpg');">
+
+
+  <!-- <body class="py-5"  style="background-image: url('https://i.pinimg.com/736x/09/8b/02/098b02b3138104e753440a7655ac38d5.jpg');"> -->
+  <!-- Navigation bar -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-logo">
+        <h1 style="color: rgb(160, 47, 98);"><strong><a style="color: rgb(160, 47, 98);"
+              href="{{url_for('index')}}">IMAGE_RIVER</a></strong></h1>
+      </div>
+      <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="{{url_for('index')}}">Home</a></li>
+        <li><a href="{{url_for('index')}}">Edit</a></li>
+        <li><a href="{{url_for('effects')}}">Effects</a></li>
+        <li><a href="{{url_for('about')}}">About</a></li>
+        <li><a href="{{url_for('history')}}">Portfolio</a></li>
+      </ul>
+      <button class="contact-btn">CONTACT US</button>
+    </div>
+  </nav>
+  <br><br>
+  <!-- Main content area -->
+  <div class="container">
+    <table>
+      <thead>In progress</thead>
+      <tr>
+        <td class="image_holder">
+          <div class="container">
+            <!-- <img src="./static/{{ image_name | safe }}" alt=""> -->
+            <!-- Conditional image display based on 'abc' value -->
+            {% if abc %}
+            <img src="./uploads/{{ image_name | safe }}" alt="">
+            {% else %}
+            <img src="./static/{{ image_name | safe }}" alt="">
+            {% endif %}
+          </div>
+        </td>
+        <td class="main-holder pl-5" style="margin-right: 12px;">
+          <div class="container my-4">
+            <!-- Edit image form -->
+            <h2 class="fs-2 text" style="color: rgb(192, 121, 28); text-align: center;">Drop Your Image To Edit</h2><br>
+            <form action="/edit" method="post" enctype="multipart/form-data">
+              <div class="mb-3">
+                <!-- <label for="formFile" class="form-label" style="color: antiquewhite;">Select an Image to edit</label> -->
+                <input class="form-control" name="file" type="file" id="formFile" />
+              </div>
+              <div class="mb-3">
+                <div class="form-floating">
+                  <select class="form-select" name="operation" id="operationSelect" aria-label="Select Operation">
+                    <option selected disabled>Choose an Operation ...</option>
+                    <option value="degree">Rotate image</option>
+                    <option value="cutting_edge_values">Crop Image</option>
+                    <option value="resize">Resize Image</option>
+                    <option value="blur">Blur Image</option>
+                    <option value="brightness">Brightness</option>
+                    <option value="contrast">Contrast</option>
+                    <option value="uploadImage">Upload an Image</option>
+                    <option value="cpng">Convert to PNG</option>
+                    <option value="cgray">Convert to Grayscale</option>
+                    <option value="cjpeg">Convert to JPEG</option>
+                    <option value="cjpg">Convert to Jpg</option>
+
+                  </select>
+                  <label for="operationSelect">Select an editing operation</label>
+                </div>
+              </div>
+              <!-- Additional fields for degree and crop options -->
+              <div id="additionalFields"></div>
+              <button type="submit" name="submit" value="type_change" style="float:inline-start;"
+                class="btn btn-success">Edit</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <br><br>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+
+  <script>
+    // JavaScript for showing additional fields based on selected operation
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('operationSelect').addEventListener('change', function () {
+        var operation = this.value;
+        var additionalFields = document.getElementById('additionalFields');
+        additionalFields.innerHTML = ''; // Clear previous additional fields
+
+        if (operation === 'degree') {
+          // Show input field for degree
+          var degreeInput = document.createElement('div');
+          degreeInput.classList.add('mb-3');
+          degreeInput.innerHTML = '<label for="degreeInput" class="form-label">Enter degrees:</label><input type="number" class="form-control" id="degreeInput" name="degree" placeholder="Enter degrees" required>';
+          additionalFields.appendChild(degreeInput);
+        } else if (operation === 'cutting_edge_values') {
+          // Show input fields for crop
+          var cropInputs = document.createElement('div');
+          cropInputs.classList.add('mb-3');
+          cropInputs.innerHTML = '<label for="x1" class="form-label">X1:</label><input type="number" class="form-control" id="x1" name="x1" placeholder="X1" required><label for="x2" class="form-label">X2:</label><input type="number" class="form-control" id="x2" name="x2" placeholder="X2" required><label for="y1" class="form-label">Y1:</label><input type="number" class="form-control" id="y1" name="y1" placeholder="Y1" required><label for="y2" class="form-label">Y2:</label><input type="number" class="form-control" id="y2" name="y2" placeholder="Y2" required>';
+          additionalFields.appendChild(cropInputs);
+        } else if (operation === 'resize') {
+          // Show input fields for resizing
+          var resizeInputs = document.createElement('div');
+          resizeInputs.classList.add('mb-3');
+          resizeInputs.innerHTML = '<label for="newWidth" class="form-label" style="color: antiquewhite;">New Width:</label><input type="number" class="form-control" id="newWidth" name="newWidth" placeholder="New Width" required><label for="newHeight" class="form-label" style="color: antiquewhite;">New Height:</label><input type="number" class="form-control" id="newHeight" name="newHeight" placeholder="New Height" required>';
+          additionalFields.appendChild(resizeInputs);
+        } else if (operation === 'blur') {
+          // Show input field for blur value
+          var blurInput = document.createElement('div');
+          blurInput.classList.add('mb-3');
+          blurInput.innerHTML = '<label for="blurValue" class="form-label" style="color: antiquewhite;">Blur Value:</label><input type="number" class="form-control" id="blurValue" name="blurValue" placeholder="Enter blur value eg: 1, 4, 5" required>';
+          additionalFields.appendChild(blurInput);
+        } else if (operation === 'brightness') {
+          // Show input field for brightness
+          var brightnessInput = document.createElement('div');
+          brightnessInput.classList.add('mb-3');
+          brightnessInput.innerHTML = '<label for="brightness" class="form-label">Brightness:</label><input type="range" class="form-range" id="brightness" name="brightness" min="-150" max="150" step="1" required>';
+          additionalFields.appendChild(brightnessInput);
+        } else if (operation === 'contrast') {
+          // Show input field for contrast
+          var contrastInput = document.createElement('div');
+          contrastInput.classList.add('mb-3');
+          contrastInput.innerHTML = '<label for="contrast" class="form-label">Contrast:</label><input type="range" class="form-range" id="contrast" name="contrast" min="0.1" max="1.9" step="0.005" required>';
+          additionalFields.appendChild(contrastInput);
+        }
+      });
+    });
+  </script>
+
+  <script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const nav = document.querySelector('nav');
+
+    navToggle.addEventListener('click', () => {
+      nav.classList.toggle('show-nav');
+    });
+  </script>
+</body>
+
+</html>

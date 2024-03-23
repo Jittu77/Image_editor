@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Image Editor- Edit Your Images Online</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+    <style>
+        table {
+
+            padding-top: 21px;
+            border-collapse: collapse;
+            width: 100%;
+            border: 3px;
+            border-color: #dc3545;
+            border-radius: 12px;
+            border-width: 5px;
+
+        }
+
+        th,
+        td,
+        thead {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            border-color: #dc3545;
+            border-radius: 12px;
+            border-width: 5px;
+        }
+
+        td img {
+            max-width: 400px;
+            max-height: 400px;
+        }
+
+        .px-6 {
+            margin-left: 32px;
+            margin-right: 32px;
+        }
+
+        nav {
+            /* background-color: rgba(160, 186, 193, 0.077); */
+            /* color: #2f2828; */
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            /* color: #fff; */
+            text-decoration: none;
+        }
+
+        /* Define colors for the toggle button */
+        .nav-toggle {
+            background-color: #ff0044;
+            /* Blue color */
+            color: #fff;
+            /* White text color */
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* On hover, darken the background color */
+        .nav-toggle:hover {
+            background-color: #0056b3;
+            /* Darker blue */
+        }
+
+        /* When active, change the background color */
+        .show-nav .nav-toggle {
+            background-color: #dc3545;
+            /* Red color */
+        }
+
+        /* Additional styles for animation or positioning */
+
+
+        .contact-btn {
+            background-color: #0077cc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: #005fa3;
+        }
+
+        .nav-toggle {
+            display: none;
+            cursor: pointer;
+        }
+
+        .form-label {
+            color: antiquewhite;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            /* background-color: #fff; */
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #000;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .nav-links li {
+                margin-bottom: 10px;
+            }
+
+            .nav-toggle {
+                display: block;
+                color: #0077cc;
+            }
+
+            .show-nav .nav-links {
+                display: block;
+            }
+        }
+
+        .features {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../images/black.jpg);
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        .first p {
+            color: #fff;
+            line-height: 30px;
+        }
+
+        .box {
+            padding: 50px 200px 200px 200px;
+        }
+
+        .features .head h1 {
+            text-align: center;
+            color: white;
+            font-size: 250%;
+            padding-top: 5px;
+            padding-bottom: 20px;
+            border-bottom: 5px solid #55075b;
+        }
+
+        .features .head {
+            padding-left: 200px;
+            padding-right: 200px;
+            padding-top: 1px;
+        }
+
+        p {
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="py-5"
+    style="background-image: url('https://cdn.filtergrade.com/wp-content/uploads/2019/12/28151148/40-Black-Wood-Background-Textures-3.jpg');">
+
+
+    <!-- <body class="py-5"  style="background-image: url('https://i.pinimg.com/736x/09/8b/02/098b02b3138104e753440a7655ac38d5.jpg');"> -->
+    <!-- Navigation bar -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1 style="color: rgb(160, 47, 98);"><strong><a style="color: rgb(160, 47, 98);"
+                            href="{{url_for('index')}}">IMAGE_RIVER</a></strong></h1>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{url_for('index')}}">Home</a></li>
+                <li><a href="{{url_for('index')}}">Edit</a></li>
+                <li><a href="{{url_for('effects')}}">Effects</a></li>
+                <li><a href="{{url_for('about')}}">About</a></li>
+                <li><a href="{{url_for('history')}}">Portfolio</a></li>
+            </ul>
+            <button class="contact-btn">CONTACT US</button>
+        </div>
+    </nav>
+    <header colspan="3" style="color: rgb(192, 121, 28); text-align: center;"> <br><br><br>
+        <h3>About Our Page</h3>
+    </header>
+
+
+    <div class="box">
+        <div class='first'>
+            <p style="color: whitesmoke;">
+                Hello, welcome to <strong>IMAGE_RIVER</strong> – The next generation photo editor.
+                Trouble editing picture, adding effects, adding filters & compressing them? That’s what we are here
+                to help you with. We provide various features to assist your photo editing needs. Few of them
+                being<br>
+                Editing – With Snaplab, you can now easily edit brightness, contrast, sharpness, blur, denoise
+                resize & rotate according to your choice.<br>
+                Effects – Snaplab lets you choose from a number of predetermined effects which helps you change the
+                coloring and look of your pictures.<br>
+                Filters – The next generation photo editor – Snaplab lightens your mood instantly on a low day or a
+                low hour. These fun filters provides an additional light up to your pictures instantly.<br>
+                Compression – Trouble uploading pictures on applications or other websites due to high image sizes?
+                Don’t worry, <strong>IMAGE_RIVER</strong> brings in a new feature of compressing your images according
+                to your needs.
+                You can decide the percentages by which you want to compress your images may it be by 25%, 50% or
+                75%.
+                <br>
+                We are working on getting more and more features for you. Hang on with us to have an access to new
+                upcoming features & feel free to let us know if you want anything further from us.
+
+                Thank you for being here!
+
+            </p>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const nav = document.querySelector('nav');
+
+        navToggle.addEventListener('click', () => {
+            nav.classList.toggle('show-nav');
+        });
+    </script>
+</body>
+
+</html>
