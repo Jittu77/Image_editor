@@ -34,7 +34,7 @@ def processImage(filename, operation):
     if operation=="uploadImage":
         return filename
     
-    if operation=="cgray":
+    elif operation=="cgray":
         print(filename, operation)
         print("done 1")
         name = filename
@@ -45,22 +45,12 @@ def processImage(filename, operation):
         cv2.imwrite(newFile, imgProcessed)
         print("done4")
         return name
-    if operation=="cpng":
-        name = f"{filename.split('.')[0]}.png"
-        newFile = f"{basedir}/static/{filename.split('.')[0]}.png"
+    elif operation in ["cpng", "cjpeg", "cjpg"]:
+        name = f"{filename.split('.')[0]}.{operation[1:]}"
+        newFile = f"{basedir}/static/{filename.split('.')[0]}.{operation[1:]}"
         cv2.imwrite(newFile, img)
         return name
-    if operation=="cjpeg":
-        name = f"{filename.split('.')[0]}.jpeg"
-        newFile = f"{basedir}/static/{filename.split('.')[0]}.jpeg"
-        cv2.imwrite(newFile, img)
-        return name
-    if operation=="cjpg":
-        name = f"{filename.split('.')[0]}.jpg"
-        newFile = f"{basedir}/static/{filename.split('.')[0]}.jpg"
-        cv2.imwrite(newFile, img)
-        return name
-    if operation == 'degree':
+    elif operation == 'degree':
         name = filename
         angle = float(request.form.get('degree'))
         print(filename, operation)
