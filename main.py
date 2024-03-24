@@ -1,9 +1,11 @@
 from flask import Flask, request, render_template, flash, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 import os
-import cv2  # opencv python library
+import cv2  
 import numpy as np
-
+import img2pdf
+from docx import Document
+from docx.shared import Inches
 
 # upload file settings
 UPLOAD_FOLDER = "uploads"
@@ -25,6 +27,7 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+
 # processing image
 def processImage(filename, operation):
     
@@ -44,15 +47,8 @@ def processImage(filename, operation):
         print("donr3")
         cv2.imwrite(newFile, imgProcessed)
         print("done4")
-        return name
-
-    # convert to png, jpeg, jpg file
-    
-    elif operation in ["cpng", "cjpeg", "cjpg"]:
-        name = f"{filename.split('.')[0]}.{operation[1:]}"
-        newFile = f"{basedir}/static/{filename.split('.')[0]}.{operation[1:]}"
-        cv2.imwrite(newFile, img)
-        return name
+        return name    
+   
 
     # rotate an image
     
@@ -213,6 +209,88 @@ def processImage(filename, operation):
 def index():
     return render_template("index.html")
 
+# image - pdf - docs page
+@app.route("/convert")
+def convert():
+    return render_template("img-pdf-doc.html")
+
+def convert_image_to_pdf(image_path, output_pdf):
+    with open(output_pdf, "wb") as pdf_file:
+        pdf_file.write(img2pdf.convert(image_path))
+
+def convert_image_to_pdf(image_path, output_pdf):
+    with open(output_pdf, "wb") as pdf_file:
+        pdf_file.write(img2pdf.convert(image_path))
+
+def convert_image_to_doc(image_path, output_doc):
+    document = Document()
+    document.add_picture(image_path, width=Inches(5))  # Adjust width as needed
+    document.save(output_doc)
+
+#changing image to pdf, doc, png, jpeg, jpg type
+def conversionImage(filename, operation):
+    if operation=="cpdf":
+        image_path = f"{basedir}/uploads/{filename}"  # Replace with your image file path
+        output_pdf = f"{basedir}/static/documents/{filename.split('.')[0]}.pdf"      # Replace with desired output PDF file name
+        convert_image_to_pdf(image_path, output_pdf)
+        return f"{filename.split('.')[0]}"+".pdf"
+    
+    elif operation=="cdoc":
+        image_path = f"{basedir}/uploads/{filename}"  # Replace with your image file path
+        output_doc = f"{basedir}/static/documents/{filename.split('.')[0]}.docx"      # Replace with desired output PDF file name
+        convert_image_to_doc(image_path, output_doc)
+        return "static/documents/"+f"{filename.split('.')[0]}"+".docx"
+    
+    
+    # convert to png, jpeg, jpg file 
+    elif operation in ["cpng", "cjpeg", "cjpg"]:
+        img = cv2.imread(f"{basedir}/uploads/{filename}")
+        name = f"{filename.split('.')[0]}.{operation[1:]}"
+        newFile = f"{basedir}/static/{filename.split('.')[0]}.{operation[1:]}"
+        cv2.imwrite(newFile, img)
+        return name
+
+
+    
+# changing image to pdf or docs
+@app.route("/conversion", methods=["GET", "POST"])
+def conversion():
+    global processedImg
+    # operation = request.form.get("operation")
+    
+
+    if request.method == "POST":
+        # check if the post request has the file part
+        if "file" not in request.files:
+            flash("No file Submission")
+            return render_template("index.html")
+        file = request.files["file"]
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == "":
+            flash("No selected file")
+            return render_template("index.html")
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(basedir, app.config["UPLOAD_FOLDER"], filename))
+            # Image processing
+            
+            if request.form['submit'] == "type_change":
+                
+                processedImg = conversionImage(filename, request.form.get("operation"))
+                return render_template("img-pdf-doc.html", image_name=processedImg)
+
+
+# change background page
+@app.route("/background")
+def background():
+    return render_template("background.html")
+
+# apply background
+@app.route("/apply_background", methods=["GET", 'POST'])
+def apply_background():
+    pass
+
 # effects web page
 @app.route("/effects")
 def effects():
@@ -306,5 +384,3 @@ def edit():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
