@@ -172,11 +172,11 @@
                 <span></span>
             </div>
             <ul class="nav-links">
-                <li><a href="{{url_for('index')}}">Home</a></li>
-                <li><a href="{{url_for('index')}}">Edit</a></li>
-                <li><a href="{{url_for('effects')}}">Effects</a></li>
-                <li><a href="{{url_for('about')}}">About</a></li>
-                <li><a href="{{url_for('history')}}">Portfolio</a></li>
+                <li><a href="{{url_for('index')}}">Home_Edit</a></li>
+        <li><a href="{{url_for('convert')}}">Img_Type</a></li>
+        <li><a href="{{url_for('effects')}}">Effects</a></li>
+        <li><a href="{{url_for('about')}}">About</a></li>
+        <li><a href="{{url_for('history')}}">Portfolio</a></li>
             </ul>
             <button class="contact-btn">  CONTACT US </button>
         </div>
@@ -213,6 +213,7 @@
                                     <select class="form-select" name="operation" id="operationSelect"
                                         aria-label="Select Operation">
                                         <option selected disabled>Choose an Effect: Mercury, Alchemy, Walco, unstable etc ...</option>
+                                        <option value="cgray">Convert to Grayscale</option>
                                         <option value="mercury">Convert to Mercury effect</option>
                                         <option value="alchemy">Convert to alchemy effect</option>
                                         <option value="wacko">Convert to Wacko effect</option>
