@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Image Editor- Edit Your Images Online</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=fire">
+
+    <style>
+        h1 a {
+            font-family: "Sofia", sans-serif;
+            font-size: 30px;
+        }
+
+        table {
+            padding-top: 21px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        td img {
+            max-width: 500px;
+            max-height: 500px;
+        }
+
+        nav {
+            /* background-color: rgba(160, 186, 193, 0.077); */
+            /* color: #2f2828; */
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            /* color: #fff; */
+            text-decoration: none;
+        }
+
+        /* Define colors for the toggle button */
+        .nav-toggle {
+            background-color: #ff0044;
+            /* Blue color */
+            color: #fff;
+            /* White text color */
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* On hover, darken the background color */
+        .nav-toggle:hover {
+            background-color: #0056b3;
+            /* Darker blue */
+        }
+
+        /* When active, change the background color */
+        .show-nav .nav-toggle {
+            background-color: #dc3545;
+            /* Red color */
+        }
+
+        /* Additional styles for animation or positioning */
+
+
+        .contact-btn {
+            background-color: #0077cc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: #005fa3;
+        }
+
+        .nav-toggle {
+            display: none;
+            cursor: pointer;
+        }
+
+        .form-label {
+            color: antiquewhite;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            /* background-color: #fff; */
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #7a0b0b;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .nav-links li {
+                margin-bottom: 10px;
+            }
+
+            .nav-toggle {
+                display: block;
+                color: #7a838a;
+            }
+
+            .show-nav .nav-links {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body class="py-5"
+    style="background-image: url('https://cdn.filtergrade.com/wp-content/uploads/2019/12/28151148/40-Black-Wood-Background-Textures-3.jpg');">
+
+
+    <!-- <body class="py-5"  style="background-image: url('https://i.pinimg.com/736x/09/8b/02/098b02b3138104e753440a7655ac38d5.jpg');"> -->
+    <!-- Navigation bar -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1 style="color: rgb(160, 47, 98);"><strong><a class="font-effect-fire"
+                            style="color: rgb(143, 36, 84);" href="{{url_for('index')}}">IMAGE_RIVER</a></strong></h1>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{url_for('index')}}">Home_Edit</a></li>
+                <li><a href="{{url_for('convert')}}">Img_Type</a></li>
+                <li><a href="{{url_for('effects')}}">Effects</a></li>
+                <li><a href="{{url_for('about')}}">About</a></li>
+                <li><a href="{{url_for('history')}}">Portfolio</a></li>
+            </ul>
+            <button class="contact-btn"> CONTACT US </button>
+        </div>
+    </nav>
+    <br><br><br>
+    <!-- Main content area -->
+    <div class="container">
+        <table>
+
+            <tr>
+                <td class="image_holder">
+                    <div class="container">
+                        <!-- <iframe src="https://docs.google.com/gview?url={{ image_name | safe }}&embedded=true" style="width:600px; height:500px;" frameborder="1"></iframe> -->
+
+                        <embed src="./static/{{ image_name | safe }}" width="600px" height="400px" />
+                        <!-- <a href="./static/documents/{{ image_name | safe }}">your converted docs</a> -->
+                        <!-- <iframe src="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe> -->
+
+                        <img src="./static/{{ image_name | safe }}" alt="">
+
+                    </div>
+                </td>
+                <td class="main-holder pl-5" style="margin-right: 12px;">
+                    <div class="container my-4">
+                        <!-- Edit image form -->
+                        <h2 class="fs-2 text" style="color: rgb(192, 121, 28); text-align: center;">Apply Effects On
+                            Image</h2><br>
+                        <form action="/conversion" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <!-- <label for="formFile" class="form-label" style="color: antiquewhite;">Select an Image to edit</label> -->
+                                <input class="form-control" name="file" type="file" id="formFile" />
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-floating">
+                                    <select class="form-select" name="operation" id="operationSelect"
+                                        aria-label="Select Operation">
+                                        <option selected disabled>Image to pdf or docs ...</option>
+                                        <option value="cpdf">Convert img to pdf</option>
+                                        <option value="cdoc">Convert img to docx</option>
+                                        <option value="cpng">Convert to PNG</option>
+                                        <option value="cjpeg">Convert to JPEG</option>
+                                        <option value="cjpg">Convert to Jpg</option>
+                                    </select>
+                                    <label for="operationSelect">Select an editing operation</label>
+                                </div>
+                            </div>
+                            <!-- Additional fields for degree and crop options -->
+                            <div id="additionalFields"></div>
+                            <button type="submit" name="submit" value="type_change" style="float:inline-start;"
+                                class="btn btn-success">Edit</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br><br>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const nav = document.querySelector('nav');
+
+        navToggle.addEventListener('click', () => {
+            nav.classList.toggle('show-nav');
+        });
+    </script>
+</body>
+
+</html>
