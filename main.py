@@ -231,13 +231,13 @@ def convert_image_to_doc(image_path, output_doc):
 def conversionImage(filename, operation):
     if operation=="cpdf":
         image_path = f"{basedir}/uploads/{filename}"  # Replace with your image file path
-        output_pdf = f"{basedir}/static/documents/{filename.split('.')[0]}.pdf"      # Replace with desired output PDF file name
+        output_pdf = f"{basedir}/static/{filename.split('.')[0]}.pdf"      # Replace with desired output PDF file name
         convert_image_to_pdf(image_path, output_pdf)
         return f"{filename.split('.')[0]}"+".pdf"
     
     elif operation=="cdoc":
         image_path = f"{basedir}/uploads/{filename}"  # Replace with your image file path
-        output_doc = f"{basedir}/static/documents/{filename.split('.')[0]}.docx"      # Replace with desired output PDF file name
+        output_doc = f"{basedir}/static/{filename.split('.')[0]}.docx"      # Replace with desired output PDF file name
         convert_image_to_doc(image_path, output_doc)
         return "static/documents/"+f"{filename.split('.')[0]}"+".docx"
     
