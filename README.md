@@ -136,8 +136,8 @@ This is a Flask-based web application that provides various image processing and
 ---
 
 ## Authors
-Jitendra Kumar - Backend Developer.
-Pankaj Rishi - FrontEnd Developer.
+ - Jitendra Kumar - Backend Developer
+ - Pankaj Rishi - FrontEnd Developer
 
 ## License
 
